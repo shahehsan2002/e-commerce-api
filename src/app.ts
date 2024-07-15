@@ -1,8 +1,15 @@
 import express, { Request, Response } from 'express';
-const app = express()
+import { ProductRoutes } from './modules/products/product.route';
+const app = express();
 
-app.get('/', (req:Request, res:Response) => {
-  res.send('Hello World!')
-})
+// Parser
+app.use(express.json());
+
+// Routes
+app.use("/api/products", ProductRoutes);
+
+app.get('/', (req: Request, res: Response) => {
+    res.send('Hello World!');
+});
 
 export default app;
