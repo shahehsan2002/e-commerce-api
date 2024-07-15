@@ -18,4 +18,6 @@ router.get("/:productId", product_controller_1.ProductControllers.
 router.put("/:productId", product_controller_1.ProductControllers.updateProduct);
 // Delete Product by id
 router.delete("/:productId", product_controller_1.ProductControllers.deleteProduct);
+// Search Products
+router.get("/", product_controller_1.ProductControllers.searchProducts);
 exports.ProductRoutes = router;

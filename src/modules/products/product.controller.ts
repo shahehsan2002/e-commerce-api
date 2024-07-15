@@ -94,6 +94,27 @@ const deleteProduct = async (req: Request, res: Response) => {
   };
 
 
+  // Search Products
+const searchProducts = async (req: Request, res: Response) => {
+    try {
+      const { searchTerm } = req.query;
+      const result = await ProductServices.searchProducts(searchTerm as string);
+  
+      res.status(200).json({
+        success: true,
+        message: `Products matching search term '${searchTerm}' fetched successfully!`,
+        data: result,
+      });
+    } catch (err: any) {
+      res.status(500).json({
+        success: false,
+        message: "Could not search products",
+        error: err,
+      });
+    }
+  };
+  
+
 
 export const ProductControllers = {
   createProduct,
@@ -101,4 +122,5 @@ export const ProductControllers = {
   getProductById,
   updateProduct,
   deleteProduct,
+  searchProducts,
 };

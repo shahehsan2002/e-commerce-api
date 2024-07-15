@@ -31,10 +31,28 @@ const deleteProduct = async (id: string) => {
   return result;
 };
 
+
+
+
+// Search Products by Term
+const searchProducts = async (term: string) => {
+  const result = await Product.find({
+    $or: [
+      { name: { $regex: term, $options: "i" } },
+      { description: { $regex: term, $options: "i" } },
+      { category: { $regex: term, $options: "i" } },
+      { tags: { $regex: term, $options: "i" } },
+    ],
+  });
+  return result;
+};
+
+
 export const ProductServices = {
   createProduct,
   getAllProducts,
   getProductById,
   updateProduct,
   deleteProduct,
+  searchProducts,
 };

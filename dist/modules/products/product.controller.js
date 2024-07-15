@@ -97,10 +97,30 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
+// Search Products
+const searchProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { searchTerm } = req.query;
+        const result = yield product_service_1.ProductServices.searchProducts(searchTerm);
+        res.status(200).json({
+            success: true,
+            message: `Products matching search term '${searchTerm}' fetched successfully!`,
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Could not search products",
+            error: err,
+        });
+    }
+});
 exports.ProductControllers = {
     createProduct,
     getAllProducts,
     getProductById,
     updateProduct,
     deleteProduct,
+    searchProducts,
 };
