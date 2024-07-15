@@ -58,8 +58,49 @@ const getProductById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 });
+// update product
+const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const productData = req.body;
+        const result = yield product_service_1.ProductServices.updateProduct(productId, productData);
+        res.status(200).json({
+            success: true,
+            message: "Product updated successfully!",
+            data: result,
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Could not update product",
+            error: err,
+        });
+    }
+});
+//   delete product
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        yield product_service_1.ProductServices.deleteProduct(productId);
+        res.status(200).json({
+            success: true,
+            message: "Product deleted successfully!",
+            data: null,
+        });
+    }
+    catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Could not delete product",
+            error: err,
+        });
+    }
+});
 exports.ProductControllers = {
     createProduct,
     getAllProducts,
     getProductById,
+    updateProduct,
+    deleteProduct,
 };
