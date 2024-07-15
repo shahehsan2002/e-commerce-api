@@ -14,46 +14,70 @@ const createProduct = async (req: Request, res: Response) => {
 };
 
 // Retrieve a List of All Products
-const getAllProducts = async (req:Request, res:Response) =>{
-    try{
-        const result = await ProductServices.getAllProducts();
+const getAllProducts = async (req: Request, res: Response) => {
+  try {
+    const result = await ProductServices.getAllProducts();
 
-        res.status(200).json({
-            success:true,
-            message:"Products are fetched successfully",
-            data:result,
-        });
-    }catch(err:any){
-        res.status(500).json({
-            success:false,
-            message:"Could not fetch Products",
-            error:err,
-        })
-    }
-}
+    res.status(200).json({
+      success: true,
+      message: "Products are fetched successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: "Could not fetch Products",
+      error: err,
+    });
+  }
+};
 
 // Search by ID
-const getProductById = async (req:Request, res:Response) => {
-  try{
-    const {productId} = req.params
+const getProductById = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
     const result = await ProductServices.getProductById(productId);
 
     res.status(200).json({
-        success:true,
-        message:"Products are fetched successfully",
-        data:result,
+      success: true,
+      message: "Products are fetched successfully",
+      data: result,
     });
-}catch(err:any){
+  } catch (err: any) {
     res.status(500).json({
-        success:false,
-        message:"Could not fetch Products",
-        error:err,
-    })
-}
-}
+      success: false,
+      message: "Could not fetch Products",
+      error: err,
+    });
+  }
+};
 
+// update product
+const updateProduct = async (req: Request, res: Response) => {
+    try {
+      const { productId } = req.params;
+      const productData = req.body;
+      const result = await ProductServices.updateProduct(productId, productData);
+  
+      res.status(200).json({
+        success: true,
+        message: "Product updated successfully!",
+        data: result,
+      });
+    } catch (err: any) {
+      res.status(500).json({
+        success: false,
+        message: "Could not update product",
+        error: err,
+      });
+    }
+  };
+
+
+  
 export const ProductControllers = {
   createProduct,
   getAllProducts,
   getProductById,
+  updateProduct,
 };
