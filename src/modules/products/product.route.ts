@@ -1,24 +1,9 @@
-import express  from "express"
+import express from "express";
+import { ProductControllers } from "./product.controller";
 
-import { MovieControllers } from "./product.controller";
+const router = express.Router();
 
+router.post("/", ProductControllers.createProduct);
+router.get("/", ProductControllers.getAllProducts);
 
-const router = express.Router()
-
-router.post("/", MovieControllers.createProduct);
-
-
-export const ProductRoutes =  router;
-
-
-
-
-
-
-
-
-
-
-
-
-
+export const ProductRoutes = router;
