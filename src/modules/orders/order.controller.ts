@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { OrderService } from "./order.service";
 
-// create order
+// Create order
 const createOrder = async (req: Request, res: Response) => {
   try {
     const orderData = req.body;
@@ -12,17 +12,21 @@ const createOrder = async (req: Request, res: Response) => {
       message: "Order created successfully!",
       data: result,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    let errorMessage = "An unknown error occurred";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
     res.status(500).json({
       success: false,
       message: "Could not create order",
-      error: err.message,
+      error: errorMessage,
     });
   }
 };
 
-
-// Get All orders
+// Get all orders
 const getAllOrders = async (req: Request, res: Response) => {
   try {
     const orders = await OrderService.getAllOrders();
@@ -32,18 +36,54 @@ const getAllOrders = async (req: Request, res: Response) => {
       message: 'Orders fetched successfully!',
       data: orders,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    let errorMessage = "An unknown error occurred";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
     res.status(500).json({
       success: false,
       message: 'Could not fetch orders',
-      error: err.message,
+      error: errorMessage,
     });
   }
 };
 
+// Get order by email
+const getOrdersByEmail = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.query as { email: string };
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email parameter is required',
+      });
+    }
+
+    const orders = await OrderService.getOrdersByEmail(email);
+
+    res.status(200).json({
+      success: true,
+      message: `Orders fetched successfully for user email: ${email}`,
+      data: orders,
+    });
+  } catch (err: unknown) {
+    let errorMessage = "An unknown error occurred";
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
+    res.status(500).json({
+      success: false,
+      message: 'Could not fetch orders by email',
+      error: errorMessage,
+    });
+  }
+};
 
 export const OrderController = {
   createOrder,
   getAllOrders,
-  // getOrdersByEmail,
+  getOrdersByEmail,
 };

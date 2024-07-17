@@ -13,9 +13,15 @@ const createOrder = async (orderData: Order): Promise<Order> => {
     return result;
   };
 
+  // Get All orders by email
+  const getOrdersByEmail = async (email: string): Promise<Order[]> => {
+    const result = await OrderModel.find({ email });
+    return result;
+  };
+
 
   export const OrderService = {
     createOrder,
     getAllOrders,
-    // getOrdersByEmail,
+    getOrdersByEmail,
   };

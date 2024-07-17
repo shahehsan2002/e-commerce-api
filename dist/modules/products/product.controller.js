@@ -13,13 +13,26 @@ exports.ProductControllers = void 0;
 const product_service_1 = require("./product.service");
 // Create a New Product
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const productData = req.body;
-    const result = yield product_service_1.ProductServices.createProduct(productData);
-    res.json({
-        success: true,
-        message: "Product is created successfully !!",
-        data: result,
-    });
+    try {
+        const productData = req.body;
+        const result = yield product_service_1.ProductServices.createProduct(productData);
+        res.json({
+            success: true,
+            message: "Product is created successfully !!",
+            data: result,
+        });
+    }
+    catch (err) {
+        let errorMessage = "An unknown error occurred";
+        if (err instanceof Error) {
+            errorMessage = err.message;
+        }
+        res.status(500).json({
+            success: false,
+            message: "Could not create product",
+            error: errorMessage,
+        });
+    }
 });
 // Retrieve a List of All Products
 const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,10 +45,14 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (err) {
+        let errorMessage = "An unknown error occurred";
+        if (err instanceof Error) {
+            errorMessage = err.message;
+        }
         res.status(500).json({
             success: false,
             message: "Could not fetch Products",
-            error: err,
+            error: errorMessage,
         });
     }
 });
@@ -46,19 +63,23 @@ const getProductById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const result = yield product_service_1.ProductServices.getProductById(productId);
         res.status(200).json({
             success: true,
-            message: "Products are fetched successfully",
+            message: "Product fetched successfully",
             data: result,
         });
     }
     catch (err) {
+        let errorMessage = "An unknown error occurred";
+        if (err instanceof Error) {
+            errorMessage = err.message;
+        }
         res.status(500).json({
             success: false,
-            message: "Could not fetch Products",
-            error: err,
+            message: "Could not fetch Product",
+            error: errorMessage,
         });
     }
 });
-// update product
+// Update product
 const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
@@ -71,14 +92,18 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (err) {
+        let errorMessage = "An unknown error occurred";
+        if (err instanceof Error) {
+            errorMessage = err.message;
+        }
         res.status(500).json({
             success: false,
             message: "Could not update product",
-            error: err,
+            error: errorMessage,
         });
     }
 });
-//   delete product
+// Delete product
 const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
@@ -90,10 +115,14 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (err) {
+        let errorMessage = "An unknown error occurred";
+        if (err instanceof Error) {
+            errorMessage = err.message;
+        }
         res.status(500).json({
             success: false,
             message: "Could not delete product",
-            error: err,
+            error: errorMessage,
         });
     }
 });
@@ -109,10 +138,14 @@ const searchProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (err) {
+        let errorMessage = "An unknown error occurred";
+        if (err instanceof Error) {
+            errorMessage = err.message;
+        }
         res.status(500).json({
             success: false,
             message: "Could not search products",
-            error: err,
+            error: errorMessage,
         });
     }
 });

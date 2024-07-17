@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderController = void 0;
 const order_service_1 = require("./order.service");
-// create order
+// Create order
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orderData = req.body;
@@ -23,14 +23,18 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (err) {
+        let errorMessage = "An unknown error occurred";
+        if (err instanceof Error) {
+            errorMessage = err.message;
+        }
         res.status(500).json({
             success: false,
             message: "Could not create order",
-            error: err.message,
+            error: errorMessage,
         });
     }
 });
-// Get All orders
+// Get all orders
 const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orders = yield order_service_1.OrderService.getAllOrders();
@@ -41,15 +45,48 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         });
     }
     catch (err) {
+        let errorMessage = "An unknown error occurred";
+        if (err instanceof Error) {
+            errorMessage = err.message;
+        }
         res.status(500).json({
             success: false,
             message: 'Could not fetch orders',
-            error: err.message,
+            error: errorMessage,
+        });
+    }
+});
+// Get order by email
+const getOrdersByEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email } = req.query;
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email parameter is required',
+            });
+        }
+        const orders = yield order_service_1.OrderService.getOrdersByEmail(email);
+        res.status(200).json({
+            success: true,
+            message: `Orders fetched successfully for user email: ${email}`,
+            data: orders,
+        });
+    }
+    catch (err) {
+        let errorMessage = "An unknown error occurred";
+        if (err instanceof Error) {
+            errorMessage = err.message;
+        }
+        res.status(500).json({
+            success: false,
+            message: 'Could not fetch orders by email',
+            error: errorMessage,
         });
     }
 });
 exports.OrderController = {
     createOrder,
     getAllOrders,
-    // getOrdersByEmail,
+    getOrdersByEmail,
 };

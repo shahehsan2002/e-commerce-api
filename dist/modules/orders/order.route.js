@@ -12,5 +12,5 @@ router.post('/', order_controller_1.OrderController.createOrder);
 // Get all orders
 router.get('/', order_controller_1.OrderController.getAllOrders);
 // Get orders by email
-// router.get('/by-email', OrderController.getOrdersByEmail);
+router.get('/email', order_controller_1.OrderController.getOrdersByEmail);
 exports.OrderRoutes = router;
