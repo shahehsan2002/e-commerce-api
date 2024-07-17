@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', OrderController.createOrder);
 
 // Get all orders
-// router.get('/', OrderController.getAllOrders);
+router.get('/', OrderController.getAllOrders);
 
 // Get orders by email
 // router.get('/by-email', OrderController.getOrdersByEmail);
